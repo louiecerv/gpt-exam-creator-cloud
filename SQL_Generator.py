@@ -1,20 +1,15 @@
 import streamlit as st
-from streamlit.runtime.scriptrunner.script_run_context import get_script_run_ctx
 import openai
 
 from openai import AsyncOpenAI
 from openai import OpenAI
 import os
 
-def is_streamlit_cloud():
-  """
-  Checks if the code is running in the Streamlit Cloud environment.
-
-  Returns:
-    bool: True if running on Streamlit Cloud, False otherwise.
-  """
-  return get_script_run_ctx() is not None
-
+client = AsyncOpenAI(
+    # This is the default and can be omitted    
+    api_key=os.getenv("API_KEY"),
+)
+  
 async def generate_response(question, context):
   model = "gpt-4-0125-preview"
   #model - "gpt-3.5-turbo"
@@ -22,20 +17,7 @@ async def generate_response(question, context):
   completion = await client.chat.completions.create(model=model, messages=[{"role": "user", "content": question}, {"role": "system", "content": context}])
   return completion.choices[0].message.content
 
-
 async def app():
-  if is_streamlit_cloud():
-    # Code to be executed on Streamlit Cloud
-    client = AsyncOpenAI(
-        # This is the default and can be omitted    
-        api_key=st.secrets["API_key"],
-    )
-  else:
-    client = AsyncOpenAI(
-        # This is the default and can be omitted    
-        api_key=os.getenv("API_KEY"),
-    )
-
   st.subheader("AI-Driven SQL Query Generator")
 
   text = """Prof. Louie F. Cervantes, M. Eng. (Information Engineering) \n
