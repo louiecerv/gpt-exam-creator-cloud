@@ -109,7 +109,7 @@ async def app():
 
   # Button to generate response
   if st.button("Generate Response"):
-    progress_bar = st.progress(0, text="The AI is processing the request, please wait...")
+    progress_bar = st.progress(0, text="The AI teacher co-pilot is processing the request, please wait...")
     if question:
       response = await generate_response(question, context)
       st.write("Response:")
@@ -124,7 +124,7 @@ async def app():
         # Simulate some time-consuming task (e.g., sleep)
         time.sleep(0.01)
     # Progress bar reaches 100% after the loop completes
-    st.success("AI processing completed!") 
+    st.success("AI teacher co-pilot task completed!") 
 
 #run the app
 if __name__ == "__main__":
