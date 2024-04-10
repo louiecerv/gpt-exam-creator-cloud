@@ -35,7 +35,7 @@ async def generate_response(question, context):
   # monitor what's going on
   print(prompt)
 
-  completion = await client.chat.completions.create(model=model, messages=[[prompt]])
+  completion = await client.chat.completions.create(model=model, messages=prompt)
   # Update context with system response
   context = completion.choices[0].message.content
   chat_history.add_message("system", context)
@@ -52,7 +52,7 @@ async def app():
   West Visayas State University"""
   st.text(text)
 
-  st.image("teacher-copilot.png", caption="A Teacher Co-pilot")
+  st.image("teach-copilot.png", caption="A Teacher Co-pilot")
   
   text = """Empower your learning journey with an AI-powered copilot!
   \nThis innovative data app leverages the power of Streamlit and OpenAI's ChatGPT 
