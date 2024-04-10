@@ -68,13 +68,48 @@ async def app():
   Anyone curious to explore the potential of AI for learning"""
   st.write(text)
 
-  # Text input for user question
-  question = st.text_input("Enter your question:")
+  context = """You are a teaching co-pilot designed to assist educators in various classroom tasks. 
+  When responding to prompts, prioritize providing resources and strategies that directly benefit teachers.
+  Remember, your primary function is to empower teachers and enhance their effectiveness in the classroom."""
+
+  options = ['K1', 'K2', 'Grade 1', 'Grade 2', 'Grade 3', 'Grade 4', 'Grade 5', 'Grade 6', 
+    'Grade 7', 'Grade 8', 'Grade 9', 'Grade 10', 'Grade 11', 'Grade 12']
+  
+  yearlevel = st.selectbox(
+    label="Select year level:",
+    options=options,
+    index=7  # Optionally set a default selected index
+  )
+
+  topic = st.text_input("Please input the topic: ")
+
+  options = ['Generate engaging learning activities', 
+    'Suggest alternative explanations for a concept students find challenging', 
+    'Provide differentiation strategies to cater to learners with varying needs',
+    'Create formative assessment ideas to gauge student understanding',
+    'Offer resources for incorporating technology into the classroom']
+    
+  # Create the combobox (selectbox) with a descriptive label
+  selected_option = st.selectbox(
+    label="Choose an option:",
+    options=options,
+    index=0  # Optionally set a default selected index
+  )
+
+  question = selected_option + " for year level " + yearlevel + " on topic " + topic
+
+  # Create a checkbox and store its value
+  checkbox_value = st.checkbox("Input your own query in natural language")
+
+  # Display whether the checkbox is checked or not
+  if checkbox_value:
+    # Ask the user to input text
+    question = st.text_input("Please input a prompt (indicate year level and topic): ")
 
   # Button to generate response
   if st.button("Generate Response"):
     if question:
-      response = await generate_response(question, "")
+      response = await generate_response(question, context)
       st.write("Response:")
       st.write(response)
     else:
