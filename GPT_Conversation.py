@@ -27,20 +27,23 @@ chat_history = ChatHistory()
 async def generate_response(question, context):
   model = "gpt-4-0125-preview"
 
-  # Add user question and previous context to history
-  chat_history.add_message("user", question)
+  # Convert chat history to a list of dictionaries
+  chat_history_list = [{"role": message["role"], "content": message["content"]} for message in chat_history.history]
+
+  # Add user question and previous context to history (list format)
+  chat_history_list.append({"role": "user", "content": question})
 
   # Include full chat history in the prompt
-  prompt = chat_history.get_history_text() + "\n" + context
-  # monitor what's going on
+  prompt = context + "\n" + question
+
+  # monitor what's going on (optional)
   print(prompt)
 
-  completion = await client.chat.completions.create(model=model, messages=prompt)
+  completion = await client.chat.completions.create(model=model, messages=chat_history_list)
   # Update context with system response
   context = completion.choices[0].message.content
   chat_history.add_message("system", context)
   return context
-
 
 async def app():
   st.subheader("Teacher Co-pilot")
