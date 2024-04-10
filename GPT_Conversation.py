@@ -58,7 +58,7 @@ async def app():
 
   st.image("teach-copilot.png", caption="A Teacher Co-pilot")
   
-  text = """Empower your learning journey with an AI-powered copilot!
+  text = """Empower your learning journey with an AI-powered teacher co-copilot!
   \nThis innovative data app leverages the power of Streamlit and OpenAI's ChatGPT 
   to create a one-of-a-kind educational experience. Imagine a chat interface where you can:
   * Ask questions: Get clear and informative answers to your learning inquiries across various subjects.
