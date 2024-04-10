@@ -4,6 +4,7 @@ import openai
 from openai import AsyncOpenAI
 from openai import OpenAI
 import os
+import time
 
 client = AsyncOpenAI(  
     api_key=os.getenv("API_KEY"),
@@ -91,7 +92,7 @@ async def app():
     
   # Create the combobox (selectbox) with a descriptive label
   selected_option = st.selectbox(
-    label="Choose an option:",
+    label="Choose a task for the teaching co-pilot:",
     options=options,
     index=0  # Optionally set a default selected index
   )
@@ -99,7 +100,7 @@ async def app():
   question = selected_option + " for year level " + yearlevel + " on topic " + topic
 
   # Create a checkbox and store its value
-  checkbox_value = st.checkbox("Input your own query in natural language")
+  checkbox_value = st.checkbox("Check this box if you want to input your own prompt.")
 
   # Display whether the checkbox is checked or not
   if checkbox_value:
@@ -108,12 +109,22 @@ async def app():
 
   # Button to generate response
   if st.button("Generate Response"):
+    progress_bar = st.progress(0, text="The AI is processing the request, please wait...")
     if question:
       response = await generate_response(question, context)
       st.write("Response:")
       st.write(response)
     else:
-      st.error("Please enter a question.")
+      st.error("Please enter a prompt.")
+
+    # update the progress bar
+    for i in range(100):
+        # Update progress bar value
+        progress_bar.progress(i + 1)
+        # Simulate some time-consuming task (e.g., sleep)
+        time.sleep(0.01)
+    # Progress bar reaches 100% after the loop completes
+    st.success("AI processing completed!") 
 
 #run the app
 if __name__ == "__main__":
