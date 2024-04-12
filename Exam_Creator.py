@@ -7,7 +7,7 @@ import os
 import time
 
 client = AsyncOpenAI(  
-    api_key=os.getenv("API_KEY"),
+  api_key=st.secrets["API_key"],
 )
 
 class ChatHistory:
